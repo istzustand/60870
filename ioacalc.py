@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 """
     Class to reformat IEC-60870-5-101/4 Adresses from the RWE-communications-profile to the standard ASDU and IOA
     structured and unstructured annotation is supported
@@ -25,8 +26,8 @@ class InformationObject:
             'uint:8=0')  # kann man zwar setzen, sollte man aber nur zusammen mit ioa 3 machen, da img sich überschneidet
         self._ioa_3 = bs.BitArray(
             'uint:8=0')  # kann man zwar setzen, sollte man aber nur zusammen mit ioa 2 machen, da img sich überschneidet
-        self._station = bs.BitArray('uint:12=0')
-        self._spannungsebene = bs.BitArray('uint:4=0')
+        self._anl = bs.BitArray('uint:12=0')
+        self._spg = bs.BitArray('uint:4=0')
         self._feld = bs.BitArray('uint:6=2')
         self._img = bs.BitArray('uint:4=0')  # Informationsgruppe
         self._bmg = bs.BitArray('uint:3=0')  # Betriebsmittelgruppe
@@ -36,8 +37,8 @@ class InformationObject:
 
         if len(args) == 9:
             self.meldetext = args[0]
-            self.station = args[1]
-            self.spannungsebene = args[2]
+            self.anl = args[1]
+            self.spg = args[2]
             self.feld = args[3]
             self.img = args[4]
             self.bmg = args[5]
@@ -79,12 +80,12 @@ class InformationObject:
         return self._ioa_3
 
     @property
-    def station(self):
-        return self._station
+    def anl(self):
+        return self._anl
 
     @property
-    def spannungsebene(self):
-        return self._spannungsebene
+    def spg(self):
+        return self._spg
 
     @property
     def feld(self):
@@ -122,8 +123,8 @@ class InformationObject:
         self._asdu = bs.BitArray('uint:16=' + str(value))
         self._asdu_1 = bs.BitArray('0b' + self._asdu[0:8].bin)
         self._asdu_2 = bs.BitArray('0b' + self._asdu[8:16].bin)
-        self._station = bs.BitArray('0b' + self._asdu[0:12].bin)
-        self._spannungsebene = bs.BitArray('0b' + self._asdu[12:16].bin)
+        self._anl = bs.BitArray('0b' + self._asdu[0:12].bin)
+        self._spg = bs.BitArray('0b' + self._asdu[12:16].bin)
 
     @asdu_1.setter
     def asdu_1(self, value):
@@ -163,15 +164,15 @@ class InformationObject:
         self._feld = bs.BitArray('0b' + self._ioa_3[0:6].bin)
         self._img = bs.BitArray('0b' + self._ioa_3[6:8].bin + self.ioa_2[0:2].bin)
 
-    @station.setter
-    def station(self, value):
-        self._station = bs.BitArray('uint:12=' + str(value))
-        self.asdu = bs.BitArray('0b' + self.station.bin + self.asdu[12:16].bin).uint
+    @anl.setter
+    def anl(self, value):
+        self._anl = bs.BitArray('uint:12=' + str(value))
+        self.asdu = bs.BitArray('0b' + self.anl.bin + self.asdu[12:16].bin).uint
 
-    @spannungsebene.setter
-    def spannungsebene(self, value):
-        self._spannungsebene = bs.BitArray('uint:4=' + str(value))
-        self.asdu = bs.BitArray('0b' + self.asdu[0:12].bin + self.spannungsebene.bin).uint
+    @spg.setter
+    def spg(self, value):
+        self._spg = bs.BitArray('uint:4=' + str(value))
+        self.asdu = bs.BitArray('0b' + self.asdu[0:12].bin + self.spg.bin).uint
 
     @feld.setter
     def feld(self, value):
