@@ -36,8 +36,6 @@ This Class calculates the different representations from a given input.
   print('asdu    \t' + str(IOA.asdu.uint) + '   \t' + str(IOA.asdu.bin))
   print('asdu1   \t' + str(IOA.asdu_1.uint) + '   \t' + str(IOA.asdu_1.bin))
   print('asdu2   \t' + str(IOA.asdu_2.uint) + '   \t' + str(IOA.asdu_2.bin))
-  print('Station \t' + str(IOA.anl.uint) + '   \t' + str(IOA.anl.bin))
-  print('Ebene   \t' + str(IOA.spg.uint) + '   \t' + str(IOA.spg.bin))
   
   print('ioa \t\t' + str(IOA.ioa.uint) + '\t' + str(IOA.ioa.bin))
   print('ioa_1 \t\t' + str(IOA.ioa_1.uint) + '   \t' + str(IOA.ioa_1.bin))
